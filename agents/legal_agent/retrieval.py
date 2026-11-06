@@ -8,6 +8,8 @@ EMBED_MODEL = os.getenv('VOYAGE_MODEL', 'voyage-4')
 # "bm25" = hybrid via FastEmbed BM25; "off" = dense only (use if
 # scripts/probe_collection.py says the stored sparse vectors are incompatible).
 SPARSE_MODE = os.getenv('SPARSE_MODE', 'bm25')
+# Seconds. The client default (5) is too short while Qdrant is optimizing.
+QDRANT_TIMEOUT = int(os.getenv('QDRANT_TIMEOUT', '30'))
 
 # Payload keys for pre-filters, verified against the restored acts_india data
 # (scripts/probe_collection.py). Note `state` is 'central' for BOTH central Acts
@@ -115,7 +117,7 @@ def hybrid_search(query: str, filters: dict, top_k: int = 6) -> list[dict]:
   from qdrant_client import QdrantClient, models
 
   if _qdrant is None:
-    _qdrant = QdrantClient(url=QDRANT_URL)
+    _qdrant = QdrantClient(url=QDRANT_URL, timeout=QDRANT_TIMEOUT)
   if _voyage is None:
     _voyage = voyageai.Client()  # reads VOYAGE_API_KEY
 

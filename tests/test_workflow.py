@@ -225,7 +225,10 @@ async def test_search_failure_is_reported_not_swallowed():
   # The sources classifier is shown the failure note and the empty source list.
   seen = prompt_of(classifier, 1)
   assert 'qdrant down' in seen and 'NO SOURCES FOUND' in seen
-  assert any('could not find provisions' in t for t in texts(events))
+  # A failed search must NOT be reported as "no provisions found".
+  out = ' '.join(texts(events))
+  assert 'search itself failed' in out and 'qdrant down' in out
+  assert 'could not find provisions' not in out
 
 
 async def test_clarify_route_asks_user_and_skips_search_and_answer():
@@ -277,3 +280,33 @@ async def test_follow_up_turn_gets_previous_question():
       build(planner, FakeLlm(responses=['ok', 'ok']), classifier, lambda *a: [hit(1)]),
       ['rent control in Goa', 'what about Gujarat?'])
   assert 'rent control in Goa' in system_of(planner, 1)
+
+
+def test_planner_schema_is_accepted_by_gemini_structured_output():
+  # Gemini rejects empty-string enum values (400 INVALID_ARGUMENT), which the
+  # fake-LLM tests cannot detect. Guard the schema shape directly.
+  from agents.legal_agent.agent import Plan
+
+  def walk(node):
+    if isinstance(node, dict):
+      if 'enum' in node:
+        assert '' not in node['enum'], node
+      for v in node.values():
+        walk(v)
+    elif isinstance(node, list):
+      for v in node:
+        walk(v)
+
+  walk(Plan.model_json_schema())
+
+
+async def test_any_status_means_no_status_filter():
+  calls = []
+
+  def search(query, filters, top_k):
+    calls.append(filters)
+    return [hit(1)]
+
+  await run(build(FakeLlm(responses=[plan({'query': 'x', 'status': 'any'})]),
+                  FakeLlm(responses=['ok']), clf(), search), 'x')
+  assert calls == [{}]

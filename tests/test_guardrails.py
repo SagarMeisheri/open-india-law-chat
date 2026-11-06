@@ -47,3 +47,11 @@ def test_fake_tag_quote_and_section_are_caught():
   text = ' '.join(r['warnings'])
   assert not r['ok']
   assert 'S3' in text and 'quoted text' in text and 'section 420' in text
+
+
+def test_grouped_tags_are_all_validated():
+  # "[S3, S4]" used to count as no tags at all, so S3 was never checked.
+  r = g.verify_answer('Punishment is two years [S1, S4].', SOURCES)
+  assert not r['ok'] and r['tags'] == 2
+  assert any('S4' in w for w in r['warnings'])
+  assert g.verify_answer('Section 138 applies [S1].', SOURCES)['ok']

@@ -53,7 +53,7 @@ searches (only for 'search'; at most 4):
   * No place or level of government mentioned -> empty list.
 - status: set only if the user asks for current/in-force law ('in_force') or
   for 'repealed' / 'spent' / 'superseded' (replaced by a newer Act) provisions;
-  otherwise empty (old laws still matter for older events).
+  otherwise 'any' (old laws still matter for older events).
 - year_from/year_to: only if the user restricts the Act's enactment year. Never
   use the year of events in the user's facts.
 - When unsure, leave a filter empty. A wrong filter hides the right answer.
@@ -68,7 +68,8 @@ Rules:
 - Answer ONLY from the sources. Never cite an Act, section, number or quote
   that is not in them. Cover every part of the question; for any part the
   sources do not answer, say what is missing instead of guessing.
-- Put the source tag after every legal claim, e.g. "... [S2]". Name the Act and
+- Put the source tag after every legal claim, e.g. "... [S2]". Use one bracket
+  per source, e.g. [S2][S3], never [S2, S3]. Name the Act and
   section, and give the source_url when present. Quote sparingly and exactly.
 - If a note says filters were dropped or rejected, or a search failed, say so.
 - Mention if a provision is marked repealed, spent, superseded, omitted or
@@ -130,6 +131,11 @@ NO_ANSWER_TEMPLATE = (
     'I could not find provisions in the corpus that answer this, so I will not '
     'guess. Searches run: {searches}. Try naming the Act or section, or '
     'removing a jurisdiction or year restriction.')
+
+NO_ANSWER_ERROR_TEMPLATE = (
+    'The search itself failed, so I cannot tell whether the corpus covers this. '
+    'This is a technical problem, not evidence that no provision exists. '
+    'Please try again in a moment. Details: {errors}')
 
 WITHHOLD_TEMPLATE = (
     'I drafted an answer but could not verify that it is fully supported by the '

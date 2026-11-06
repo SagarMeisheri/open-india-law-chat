@@ -85,7 +85,8 @@ def sanitize_input(text: str) -> tuple[str, dict]:
 
 
 # --- Output: check the answer against the sources it was given ---------------
-_TAG = re.compile(r'\[S(\d+)\]')
+# Matches [S2] and also grouped forms such as [S3, S4] or [S1; S2].
+_TAG_GROUP = re.compile(r'\[(S\d+(?:\s*[,;]\s*S?\d+)*)\]')
 _QUOTE = re.compile(r'["“]([^"”]{25,}?)["”]')
 _SECTION = re.compile(r'\b[Ss]ections?\s+(\d+[A-Za-z]?)\b')
 
@@ -104,7 +105,8 @@ def verify_answer(answer: str, sources: list[dict]) -> dict:
   corpus = _norm(' '.join(
       str(v) for s in sources for v in s.get('fields', {}).values()))
 
-  tags = {int(t) for t in _TAG.findall(answer)}
+  tags = {int(n) for grp in _TAG_GROUP.findall(answer)
+          for n in re.findall(r'\d+', grp)}
   bad = sorted(t for t in tags if not 1 <= t <= len(sources))
   if bad:
     warnings.append(f'cites sources that do not exist: {["S%d" % t for t in bad]}')

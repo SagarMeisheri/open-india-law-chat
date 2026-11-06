@@ -70,8 +70,9 @@ class SearchPlan(BaseModel):
   jurisdictions: list[str] = Field(
       default_factory=list,
       description="'central' and/or state/UT names. Empty list = no restriction.")
-  status: Literal['', 'in_force', 'repealed', 'spent', 'superseded'] = Field(
-      default='', description="Provision status filter; '' = any.")
+  # 'any' not '': Gemini's structured-output schema rejects empty-string enums.
+  status: Literal['any', 'in_force', 'repealed', 'spent', 'superseded'] = Field(
+      default='any', description="Provision status filter; 'any' = no filter.")
   year_from: int = Field(default=0, description='Earliest Act year; 0 = none.')
   year_to: int = Field(default=0, description='Latest Act year; 0 = none.')
 
@@ -160,7 +161,8 @@ def build_workflow(
     if rejected:
       notes.append(f'Ignored unknown jurisdictions: {rejected}.')
     filters = {k: v for k, v in {
-        'jurisdictions': jurisdictions, 'status': plan.status,
+        'jurisdictions': jurisdictions,
+        'status': '' if plan.status == 'any' else plan.status,
         'year_from': plan.year_from, 'year_to': plan.year_to}.items() if v}
     query = plan.query.strip() or question
     try:
@@ -223,7 +225,12 @@ def build_workflow(
   def no_answer(ctx: Context, node_input: str):
     searches = ctx.state.get('plan', {}).get('searches', [])
     ran = '; '.join(f'"{x["query"]}"' for x in searches) or 'none'
-    msg = prompts.NO_ANSWER_TEMPLATE.format(searches=ran)
+    errors = [n for n in ctx.state.get('plan', {}).get('notes', [])
+              if ' failed: ' in n]
+    if errors:  # a failed search is not the same as "nothing found"
+      msg = prompts.NO_ANSWER_ERROR_TEMPLATE.format(errors=' '.join(errors))
+    else:
+      msg = prompts.NO_ANSWER_TEMPLATE.format(searches=ran)
     yield Event(message=msg)
     yield Event(output=msg)
 
