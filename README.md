@@ -15,6 +15,15 @@ nodes), [Qdrant](https://qdrant.tech) (hybrid vector search), Voyage AI
 > point-in-time snapshot, not current law. Always verify against the official
 > source before relying on anything it says.
 
+**Runs locally; not hosted.** There is no hosted demo or server. You run Qdrant
+in Docker and the app on your own machine. It is **not offline**: every question
+is sent to the Voyage AI (embedding) and Google Gemini (planning, classifiers,
+answering) APIs using your own keys, and the dataset snapshots are downloaded
+the first time you restore them. Running fully offline would need local
+replacements for both models, which this project has not tried (see the
+embedding-model note under [Configuration](#configuration) and
+[Privacy and safety](#privacy-and-safety)).
+
 ## How it works
 
 ```
