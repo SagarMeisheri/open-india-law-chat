@@ -1,5 +1,5 @@
 [project]
-name = "vaquill-legal-chat"
+name = "open-india-law-chat"
 version = "0.1.0"
 description = "Legal research chat over the Open India Law corpus (Qdrant + Voyage + Google ADK)"
 readme = "README.md"

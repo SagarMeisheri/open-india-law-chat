@@ -1,4 +1,4 @@
-# VaquillAI legal research chat
+# Open India Law Chat
 
 A research assistant for Indian legislation. You ask a question in plain English,
 and it searches the [Open India Law](https://huggingface.co/datasets/vaquill/open-india-law)
