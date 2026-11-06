@@ -20,6 +20,13 @@ DISCLAIMER = (
     'relying on it.'
 )
 
+# Required by the dataset's CC BY 4.0 licence and by source policies that ask for
+# prominent acknowledgement. Appended to every delivered or withheld answer.
+ATTRIBUTION = (
+    'Data: Open India Law by Vaquill AI (CC BY 4.0), compiled from official '
+    'government sources. https://huggingface.co/datasets/vaquill/open-india-law')
+LEGAL_NOTICE = f'{DISCLAIMER}\n\n{ATTRIBUTION}'
+
 # --- LLM instructions ---------------------------------------------------------
 
 # `{prev_question?}` is an ADK state placeholder (empty when absent), not a

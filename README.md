@@ -228,13 +228,25 @@ Facts learned from the real data (they differ from the dataset README):
 | Filters match nothing | Check values with `scripts/probe_collection.py`; `state` uses slugs. |
 | Qdrant log: `Can't notify optimizers... Restart is required` | Seen once and harmless in testing (the collection kept optimizing and went `green`). If a collection stays `yellow` with idle CPU, run `docker restart qdrant`. |
 
-## Attribution and licence
+## Licence and attribution
 
-The data is the **Open India Law** dataset by Vaquill AI, licensed
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): attribution is
-required, including in any product built on it. The underlying legal text is
-government work (Copyright Act 1957, s.17(d) and s.52(1)(q)). The dataset's
-README notes that two regulators (IRDAI, CPCB) were scraped against their
-`robots.txt`; consider that before commercial use of those sources.
-
-Add a licence for this repository's own code before publishing it.
+- **This project's code:** [Apache-2.0](LICENSE) (the same licence the dataset
+  uses for its own scripts). Copyright and third-party notices are in
+  [NOTICE](NOTICE).
+- **The data:** the [Open India Law](https://huggingface.co/datasets/vaquill/open-india-law)
+  dataset by Vaquill AI, licensed
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). **Attribution is
+  required**, including in any product built on it. This repo does not contain
+  or redistribute the data; it restores the authors' published snapshots
+  unchanged into a local Qdrant. Every answer the app delivers (and every
+  withheld-answer notice) ends with the credit line in `ATTRIBUTION`
+  (`agents/legal_agent/prompts.py`). Keep it if you fork or deploy this. Some
+  sources (eCourts, NCLT, NCLAT) require their material to be prominently
+  acknowledged; the credit also serves that purpose.
+- **The legal text itself:** a government work (Copyright Act 1957, s.17(d);
+  reproducible under s.52(1)(q)).
+- **Not endorsed:** this project is not affiliated with Vaquill AI or any
+  Indian court, regulator or government body.
+- The dataset's README notes that two regulators (IRDAI, CPCB) were scraped
+  against their `robots.txt`; consider that before commercial use of those
+  sources.

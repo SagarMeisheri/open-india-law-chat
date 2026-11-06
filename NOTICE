@@ -1,0 +1,48 @@
+VaquillAI legal research chat
+Copyright 2026 Sagar B. Meisheri
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+------------------------------------------------------------------------------
+Data attribution (required by the dataset's CC BY 4.0 licence)
+------------------------------------------------------------------------------
+
+This project searches and quotes the "Open India Law" dataset:
+
+  Title:    Open India Law (vaquill/open-india-law, snapshot v2026.08)
+  Author:   Vaquill AI
+  Source:   https://huggingface.co/datasets/vaquill/open-india-law
+  Code:     https://github.com/Vaquill-AI/open-india-law
+  Licence:  Creative Commons Attribution 4.0 International (CC BY 4.0)
+            https://creativecommons.org/licenses/by/4.0/
+
+The dataset is compiled from official Indian government sources (including
+India Code and the regulators' own publications). The underlying legislative
+text is a government work (Copyright Act, 1957, s.17(d); reproducible under
+s.52(1)(q)); the dataset's authors hold no rights in it and grant none. Some
+sources, including the eCourts, NCLT and NCLAT policies, require the source to
+be prominently acknowledged.
+
+Changes made: this project does not modify or redistribute the dataset. It
+restores the authors' published Qdrant snapshots unchanged into a local
+database and reads from them. Query-time filtering, ranking, quoting and
+summarisation are done by this project's code and by third-party language
+models; any errors in those outputs are not the dataset authors'.
+
+This project is not affiliated with, sponsored by or endorsed by Vaquill AI or
+by any Indian court, tribunal, regulator or government body.
+
+Anyone who deploys or redistributes this project, or a product built on the
+dataset, must keep this attribution and show credit to their users (the
+application appends a short credit to every answer; see ATTRIBUTION in
+agents/legal_agent/prompts.py).
+
+------------------------------------------------------------------------------
+Third-party software
+------------------------------------------------------------------------------
+
+Used as installed dependencies (see uv.lock); each keeps its own licence:
+Google ADK (Apache-2.0), qdrant-client (Apache-2.0), FastEmbed (Apache-2.0),
+Microsoft Presidio (MIT), voyageai (MIT), spaCy and its en_core_web_sm model
+(MIT / MIT). Qdrant itself is Apache-2.0. Use of the Gemini and Voyage AI APIs
+is governed by their respective terms of service.

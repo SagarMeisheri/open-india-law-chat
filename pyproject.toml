@@ -2,6 +2,9 @@
 name = "vaquill-legal-chat"
 version = "0.1.0"
 description = "Legal research chat over the Open India Law corpus (Qdrant + Voyage + Google ADK)"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.11,<3.14"
 dependencies = [
     "google-adk[db]>=2.0",

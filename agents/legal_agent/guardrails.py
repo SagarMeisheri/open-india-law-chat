@@ -6,7 +6,7 @@ these checks always run. They complement, not replace, the prompt rules.
 
 import re
 
-from .prompts import DISCLAIMER  # re-exported for callers
+from .prompts import DISCLAIMER, LEGAL_NOTICE  # DISCLAIMER re-exported for callers
 
 MAX_INPUT_CHARS = 4000
 
@@ -131,4 +131,4 @@ def format_footer(result: dict) -> str:
   else:
     head = 'CHECK FAILED, do not rely on these points without verifying:\n' + '\n'.join(
         f'- {w}' for w in result['warnings'])
-  return f'{head}\n\n{DISCLAIMER}'
+  return f'{head}\n\n{LEGAL_NOTICE}'

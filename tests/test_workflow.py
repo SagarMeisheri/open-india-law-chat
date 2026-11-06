@@ -104,6 +104,7 @@ async def test_happy_path_delivers_answer_with_footer_and_filters():
   out = '\n'.join(texts(events))
   assert 'offence under section 138 [S1]' in out
   assert 'Check passed' in out and 'Grounding check: 95%' in out
+  assert 'Open India Law' in out and 'CC BY 4.0' in out  # dataset attribution
   assert state['verification']['ok'] is True
   assert state['safety_answer']['choice'] == 'ok'
   assert state['grounding_answer']['probability'] == 0.95
@@ -120,6 +121,7 @@ async def test_ungrounded_draft_is_withheld_and_never_shown():
   out = '\n'.join(texts(events))
   assert 'SECRET-DRAFT' not in out          # the draft never reaches the user
   assert 'could not verify' in out and 'Negotiable Instruments Act' in out
+  assert 'CC BY 4.0' in out  # attribution is on withheld notices too
   assert state['grounding_answer']['probability'] == 0.2
 
 

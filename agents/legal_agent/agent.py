@@ -278,7 +278,7 @@ def build_workflow(
     lines = '\n'.join(_source_line(i, s) for i, s in enumerate(sources, start=1))
     msg = prompts.WITHHOLD_TEMPLATE.format(
         probability=f'{p:.0%}' if p is not None else 'low',
-        sources=lines, disclaimer=prompts.DISCLAIMER)
+        sources=lines, disclaimer=prompts.LEGAL_NOTICE)
     yield Event(message=msg)
     yield Event(output=msg)
 
