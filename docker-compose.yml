@@ -1,0 +1,20 @@
+# Local Qdrant for the Open India Law snapshots.
+#
+# Pinned to v1.16.3: the published snapshots were taken from Qdrant 1.16.3, so
+# restoring into the same version is the safest path. Upgrade one minor version
+# at a time AFTER a successful restore if you want a newer release.
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.16.3
+    container_name: qdrant
+    restart: unless-stopped
+    ports:
+      # Bound to localhost only: Qdrant has no auth unless you configure an API key.
+      - "127.0.0.1:6333:6333"   # REST + dashboard (http://localhost:6333/dashboard)
+      - "127.0.0.1:6334:6334"   # gRPC
+    volumes:
+      # Named volume (not a bind mount): faster on macOS and supports mmap.
+      - qdrant_storage:/qdrant/storage
+
+volumes:
+  qdrant_storage:
